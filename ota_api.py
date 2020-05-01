@@ -15,6 +15,7 @@ def root():
 # Get download URL endpoint
 @app.route('/getLatestReleaseUrl', methods=['GET'])
 def get_latest_release_url():
+    # TODO: Handle exception where argument is missing
     device_fw_version = request.args.get('version')
     board = request.args.get('board')
     ret, download_url = check_board_fw_version(device_fw_version, \
@@ -34,6 +35,7 @@ def check_board_fw_version(device_fw_version, board, github_user, github_repo):
     response = requests.get('https://api.github.com/repos/{}/{}/releases/latest' \
                        .format(github_user, github_repo))                        \
                        .json()
+    # TODO: Return without continuing function execution if the version is up-to-date
     server_fw_version = response['tag_name'][1:]
     assets = response['assets']
 
@@ -50,5 +52,5 @@ def check_board_fw_version(device_fw_version, board, github_user, github_repo):
 
 if __name__ == "__main__":
     # Run app on port 8080 in debug mode,
-    # host='0.0.0.0' is used to make the app available on LAN
+    # host='0.0.0.0' is used to make the app discoverable on LAN
     app.run(host='0.0.0.0', port=8080, debug=True)
