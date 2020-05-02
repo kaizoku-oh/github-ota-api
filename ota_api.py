@@ -13,15 +13,23 @@ def root():
     return 'Welcome to GitHub OTA API'
 
 # Get download URL endpoint
-@app.route('/getLatestReleaseUrl', methods=['GET'])
+@app.route('/firmwares/latest', methods=['GET'])
 def get_latest_release_url():
-    # TODO: Handle exception where argument is missing
     device_fw_version = request.args.get('version')
     board = request.args.get('board')
-    ret, download_url = check_board_fw_version(device_fw_version, \
-                                               board,             \
-                                               GITHUB_USERNAME,   \
-                                               GITHUB_REPOSITORY)
+    
+    if device_fw_version and board:
+        ret, download_url = check_board_fw_version(device_fw_version, \
+                                                   board,             \
+                                                   GITHUB_USERNAME,   \
+                                                   GITHUB_REPOSITORY)
+    else:
+        if not device_fw_version:
+            print('[ERROR] No version found')
+        if not board:
+            print('[ERROR] No board found')
+        return '', 400
+
     if ret == True:
         return download_url
     else:
@@ -35,19 +43,18 @@ def check_board_fw_version(device_fw_version, board, github_user, github_repo):
     response = requests.get('https://api.github.com/repos/{}/{}/releases/latest' \
                        .format(github_user, github_repo))                        \
                        .json()
-    # TODO: Return without continuing function execution if the version is up-to-date
     server_fw_version = response['tag_name'][1:]
-    assets = response['assets']
-
-    for asset in assets:
-        # examples: 'firmware_esp32dev.bin'
-        #           'firmware_nodemcuv2.bin'
-        if asset['name'] == 'firmware_{}.bin'.format(board):
-            # if device_fw_version < server_fw_version
-            if semver.compare(server_fw_version, device_fw_version) == 1:
-                ret, download_url = True, asset['browser_download_url']
-                break
-
+    if semver.VersionInfo.isvalid(device_fw_version) and \
+       semver.VersionInfo.isvalid(server_fw_version):
+        # if device_fw_version < server_fw_version
+        if semver.compare(server_fw_version, device_fw_version) == 1:
+            assets = response['assets']
+            for asset in assets:
+                # examples: 'firmware_esp32dev.bin'
+                #           'firmware_nodemcuv2.bin'
+                if asset['name'] == 'firmware_{}.bin'.format(board):
+                    ret, download_url = True, asset['browser_download_url']
+                    break
     return ret, download_url
 
 if __name__ == "__main__":
