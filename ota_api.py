@@ -53,8 +53,19 @@ def check_board_fw_version(device_fw_version, board, github_user, github_repo):
                 # examples: 'firmware_esp32dev.bin'
                 #           'firmware_nodemcuv2.bin'
                 if asset['name'] == 'firmware_{}.bin'.format(board):
-                    ret, download_url = True, asset['browser_download_url']
-                    break
+                    download_url = asset['browser_download_url']
+
+                    print('download_url = {}'.format(download_url))
+                    r = requests.get(download_url)
+                    print(r)
+                    if r.history:
+                        print('Request was redirected')
+                        resp = r.history[0]
+                        if r.status_code == 200:
+                            print('Final destination:')
+                            print(r.status_code, r.url)
+                            return True, r.url
+
     return ret, download_url
 
 if __name__ == "__main__":
