@@ -8,7 +8,6 @@ app = Flask(__name__)
 def root_handler():
   return "Welcome to GitHub OTA API"
 
-# Get latest firmware download URL endpoint 
 @app.route("/firmwares/latest", methods=["GET"])
 def latest_release_url_handler():
   download_url = get_latest_release_url()
@@ -38,12 +37,18 @@ def get_latest_release_url():
   if semver.VersionInfo.isvalid(device_current_fw_version) and semver.VersionInfo.isvalid(server_fw_version):
     # 5.1. if device_current_fw_version < server_fw_version
     if semver.compare(server_fw_version, device_current_fw_version) == 1:
-      # 5.2. extract download url from response
+      # 5.2. extract browser download url from response
       assets = json_response["assets"]
       for asset in assets:
         if asset["name"] == "firmware.bin":
-          download_url = asset["browser_download_url"]
+          browser_download_url = asset["browser_download_url"]
           break
+      # 5.3. get the final download url
+      response = requests.get(browser_download_url)
+      # 5.4. if request was redirected get url
+      if response.history:
+        if response.status_code == 200:
+          download_url = response.url
   return download_url
 
 if __name__ == "__main__":

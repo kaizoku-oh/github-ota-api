@@ -1,6 +1,6 @@
 import requests
 
-FILE_URL = "https://github.com/kaizoku-619/pio-ci-example/releases/download/v1.0.1/firmware_esp32dev.bin"
+FILE_URL = "https://github.com/kaizoku-oh/pio-esp32-https-ota/releases/download/v0.0.0/firmware.bin"
 
 def main():
   response = requests.get(FILE_URL)
