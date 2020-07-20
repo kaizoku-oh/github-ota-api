@@ -8,6 +8,7 @@ app = Flask(__name__)
 def root_handler():
   return "Welcome to GitHub OTA API"
 
+# Latest release download url endpoint
 @app.route("/firmwares/latest", methods=["GET"])
 def latest_release_url_handler():
   download_url = get_latest_release_url()
@@ -50,8 +51,3 @@ def get_latest_release_url():
         if response.status_code == 200:
           download_url = response.url
   return download_url
-
-if __name__ == "__main__":
-  # Run app on port 8080 in debug mode,
-  # host="0.0.0.0" is used to make the app discoverable on LAN
-  app.run(host="0.0.0.0", port=8080, debug=True)
