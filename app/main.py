@@ -9,7 +9,7 @@ def root_handler():
   return "Welcome to GitHub OTA API"
 
 # Latest release download url endpoint
-@app.route("/firmwares/latest", methods=["GET"])
+@app.route("/firmware/latest", methods=["GET"])
 def latest_release_url_handler():
   download_url = get_latest_release_url()
   if download_url:
