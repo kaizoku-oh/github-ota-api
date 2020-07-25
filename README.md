@@ -9,6 +9,8 @@ Serving binary release asset from GitHub to devices.
 
 ![Twitter follow](https://img.shields.io/twitter/follow/kaizoku_ouh?style=social)
 
+# github-ota-api
+
 **Base URL:** https://github-ota-api.herokuapp.com
 
 **Endpoint:** /firmware/latest
