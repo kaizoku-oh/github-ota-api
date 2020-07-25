@@ -11,9 +11,12 @@ def root_handler():
 # Latest release download url endpoint
 @app.route("/firmware/latest", methods=["GET"])
 def latest_release_url_handler():
-  download_url = get_latest_release_url()
+  download_url, version = get_latest_release_url()
   if download_url:
-    ret = {"download_url": download_url}
+    ret = {
+      "version": version,
+      "download_url": download_url
+    }
   else:
     # HTTP 204 No Content
     ret = "", 204
@@ -50,4 +53,4 @@ def get_latest_release_url():
       if response.history:
         if response.status_code == 200:
           download_url = response.url
-  return download_url
+  return download_url, server_fw_version
