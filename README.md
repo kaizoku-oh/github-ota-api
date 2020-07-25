@@ -1,3 +1,14 @@
+# Github OTA API
+![GitHub release](https://img.shields.io/github/v/release/kaizoku-oh/github-ota-api)
+![GitHub issues](https://img.shields.io/github/issues/kaizoku-oh/github-ota-api)
+![GitHub top language](https://img.shields.io/github/languages/top/kaizoku-oh/github-ota-api)
+![Flask version](https://img.shields.io/github/pipenv/locked/dependency-version/kaizoku-oh/github-ota-api/flask)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+
+Serving binary release asset from GitHub to devices.
+
+![Twitter follow](https://img.shields.io/twitter/follow/kaizoku_ouh?style=social)
+
 # github-ota-api
 
 **Base URL:** https://github-ota-api.herokuapp.com
