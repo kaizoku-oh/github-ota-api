@@ -27,6 +27,23 @@ GET http://github-ota-api.herokuapp.com/firmware/latest?github_username=kaizoku-
 }
 ```
 
+## Development notes:
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+```bash
+# install dependencies
+$ sudo apt install python3-pip
+$ python3 -m pip install --upgrade pip
+$ python3 -m pip --version
+$ python3 -m pip install pipenv
+# get project
+$ git clone https://github.com/kaizoku-oh/github-ota-api.git
+$ cd github-ota-api
+# create a virtualenv for the project
+$ python3 -m pipenv install
+# activate project's virtualenv
+$ python3 -m pipenv shell
+```
+
 ## Deployment notes:
 It's recommended to keep your github repo changes aligned with the heroku repo by following these steps.
 ### 1. Push code to GitHub
