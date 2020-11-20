@@ -42,6 +42,8 @@ $ cd github-ota-api
 $ python3 -m pipenv install
 # activate project's virtualenv
 $ python3 -m pipenv shell
+$ cd app
+$ python3 main.py
 ```
 
 ## Deployment notes:
